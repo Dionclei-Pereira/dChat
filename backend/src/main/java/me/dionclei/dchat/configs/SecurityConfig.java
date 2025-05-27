@@ -15,6 +15,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -25,6 +27,9 @@ public class SecurityConfig {
 				.cors(c -> c.configurationSource(cors))
 				.authorizeHttpRequests(auth ->
 						auth.anyRequest().authenticated())
+				.exceptionHandling(e -> e.authenticationEntryPoint((request, response, ex) -> {
+					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+				}))
 				.build();
 	}
 	

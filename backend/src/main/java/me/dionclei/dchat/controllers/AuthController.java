@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import me.dionclei.dchat.dto.AuthRequest;
 import me.dionclei.dchat.dto.LoginResponse;
+import me.dionclei.dchat.enums.UserRole;
 import me.dionclei.dchat.services.interfaces.TokenService;
 import me.dionclei.dchat.services.interfaces.UserService;
 
@@ -44,7 +45,7 @@ public class AuthController {
 
 		if (user.isPresent()) throw new MethodArgumentNotValidException(methodParameter, bindingResult);
 		
-		userService.createUser(request.name(), request.password());
+		userService.createUser(request.name(), request.password(), UserRole.USER);
 		
 		return ResponseEntity.ok().build();
 	}
