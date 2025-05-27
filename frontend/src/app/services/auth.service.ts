@@ -42,6 +42,8 @@ export class AuthService {
             headers: {
                 Authorization: `${token}`
             }
-        })
+        }).pipe(tap(isValid => {
+            if (!isValid) this.logout();
+        }))
     }
 }
