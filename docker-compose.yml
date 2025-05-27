@@ -1,15 +1,45 @@
 services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:var/lib/mongodb
+    networks:
+      - dchat
+  rabbitmq:
+    build: .
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "61613:61613"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - dchat
   backend:
     container_name: backend
     build:
       context: .
       dockerfile: backend/Dockerfile
     ports:
-      - '8080:8080'
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/dchat
     networks:
       - dchat
 
 networks:
   dchat:
     driver: bridge
+
+volumes:
+  mongodb_data:
+
     
