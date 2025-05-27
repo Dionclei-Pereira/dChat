@@ -8,11 +8,13 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import me.dionclei.dchat.dto.AuthRequest;
 import me.dionclei.dchat.dto.LoginResponse;
@@ -60,5 +62,11 @@ public class AuthController {
 			return ResponseEntity.ok().body(new LoginResponse(token));
 		}
 		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("isvalid")
+	public ResponseEntity<Boolean> isValid(HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+		return ResponseEntity.ok().body(tokenService.isValid(token));
 	}
 }
