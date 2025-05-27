@@ -4,12 +4,15 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import me.dionclei.dchat.enums.UserRole;
 
+@Document
 public class dUser implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
@@ -26,7 +29,7 @@ public class dUser implements UserDetails {
 		super();
 		this.id = id;
 		this.name = name;
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 		this.role = role;
 	}
 	
@@ -46,7 +49,7 @@ public class dUser implements UserDetails {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 	}
 	public UserRole getRole() {
 		return role;
