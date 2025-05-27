@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import me.dionclei.dchat.dto.AuthRequest;
 import me.dionclei.dchat.dto.LoginResponse;
+import me.dionclei.dchat.services.interfaces.TokenService;
 import me.dionclei.dchat.services.interfaces.UserService;
 
 @RestController
@@ -24,10 +25,12 @@ public class AuthController {
 	
 	private UserService userService;
 	private AuthenticationManager manager;
+	private TokenService tokenService;
 	
-	public AuthController(UserService userService, AuthenticationManager manager) {
+	public AuthController(UserService userService, AuthenticationManager manager, TokenService tokenService) {
 		this.userService = userService;
 		this.manager = manager;
+		this.tokenService = tokenService;
 	}
 
 	@PostMapping("/register")
@@ -50,7 +53,11 @@ public class AuthController {
 	public ResponseEntity<LoginResponse> login(@RequestBody AuthRequest request) {
 		UsernamePasswordAuthenticationToken username = new UsernamePasswordAuthenticationToken(request.name(), request.password());
 		var auth = manager.authenticate(username);
-		
-		return ResponseEntity.ok().body(new LoginResponse(null));
+		var user = userService.findByName(auth.getName());
+		if (user.isPresent()) {
+			var token = tokenService.generateToken(user.get());
+			return ResponseEntity.ok().body(new LoginResponse(token));
+		}
+		return ResponseEntity.notFound().build();
 	}
 }
