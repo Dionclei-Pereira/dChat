@@ -34,7 +34,15 @@ services:
       - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/dchat
     networks:
       - dchat
-
+  frontend:
+    container_name: frontend
+    build: 
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - dchat
 networks:
   dchat:
     driver: bridge

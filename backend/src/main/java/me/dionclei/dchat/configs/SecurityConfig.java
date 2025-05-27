@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,11 +23,12 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SecurityConfig {
 	
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity config, CorsConfigurationSource cors) throws Exception {
+	SecurityFilterChain filterChain(HttpSecurity config, CorsConfigurationSource cors, SecurityFilter filter) throws Exception {
 		return config.csrf(c -> c.disable())
 				.cors(c -> c.configurationSource(cors))
-				.authorizeHttpRequests(auth ->
-						auth.anyRequest().authenticated())
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/ws").authenticated()
+						.anyRequest().permitAll())
+				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(e -> e.authenticationEntryPoint((request, response, ex) -> {
 					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 				}))
@@ -40,6 +42,7 @@ public class SecurityConfig {
 		config.setAllowedHeaders(List.of("*"));
 		config.setAllowedMethods(List.of("*"));
 		config.setAllowedOriginPatterns(List.of("*"));
+		config.setAllowCredentials(true);
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);

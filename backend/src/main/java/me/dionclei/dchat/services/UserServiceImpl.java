@@ -17,7 +17,10 @@ import me.dionclei.dchat.services.interfaces.UserService;
 public class UserServiceImpl implements UserService {
 	
 	private dUserRepository userRepository;
-
+	
+	public UserServiceImpl(dUserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 	
 	public Optional<dUser> findByName(String name) {
 		return userRepository.findByName(name);
