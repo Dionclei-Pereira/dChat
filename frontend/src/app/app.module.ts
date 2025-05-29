@@ -8,17 +8,18 @@ import { RouterModule } from '@angular/router';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { AuthLoginComponent } from './components/auth/auth-login/auth-login.component';
 import { HomeComponent } from './components/home/home.component';
+import { CardComponent } from './components/card/card.component';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AuthLoginComponent,
-    HomeComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    ComponentsModule
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

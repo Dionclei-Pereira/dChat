@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+@use "assets/bootstrap/bootstrap.css";
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: 0;
+}

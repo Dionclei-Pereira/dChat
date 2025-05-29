@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-login',
@@ -8,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AuthLoginComponent {
 
+  constructor(private readonly router: Router) {}
+
+  onRegister(): void {
+    this.router.navigate(['/auth/register'])
+  }
 }

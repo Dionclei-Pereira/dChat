@@ -1,0 +1,20 @@
+.card {
+    
+    height: 520px;
+    width: 400px;
+
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+    background: rgba(255, 3, 3, 0.1);
+    border: 2px solid rgb(241, 8, 171);
+    box-shadow: 0 0 40px rgb(247, 82, 178);
+
+    padding: 50px 35px;
+}

@@ -1,1 +1,20 @@
-<p>auth-login works!</p>
+<div class="auth d-flex justify-content-center mt-5">
+    <app-card class="w-75">
+        <form ngForm #form="ngForm" class="d-flex flex-column gap-4">
+            <div class="text-center">
+                <label for="name" class="h6 text-primary">Name</label>
+                <input type="text" id="name" name="name" class="w-100 rounded ps-1" required>
+            </div>
+            <div class="text-center">
+                <label for="password" class="h6 text-primary">Password</label>
+                <input type="password" id="password" name="password" class="w-100 rounded ps-1" required>
+            </div>
+            <div>
+                <p class="text-center">Do not have an account? <span class="text-success" (click)="onRegister()">Register</span></p>
+            </div>
+            <div class="d-flex flex-column-reverse">
+                <button class="btn btn-primary mt-auto">Login</button>
+            </div>
+        </form>
+    </app-card>
+</div>
