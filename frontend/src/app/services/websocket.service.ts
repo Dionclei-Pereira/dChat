@@ -17,19 +17,13 @@ export class WebSocketService {
       reconnectDelay: 5000,
       connectHeaders: {
         Authorization: 'Bearer ' + this.auth.getToken(),
-      },
-      debug: (str) => console.log(str),
+      }
     });
   }
 
   connect(topic: string, callback: (message: IMessage) => void): void {
     this.client.onConnect = () => {
       this.subs = this.client.subscribe(topic, callback);
-    };
-
-    this.client.onStompError = (frame) => {
-      console.error('Erro STOMP:', frame.headers['message']);
-      console.error('Detalhes:', frame.body);
     };
 
     this.client.activate();

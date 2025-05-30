@@ -9,29 +9,36 @@ import { IMessage } from '../../interfaces/message.interface';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent 
+  // implements OnInit, OnDestroy 
+{
 
   messages: IMessage[] = [];
   text: string = '';
+  page: number = 0;
 
-  constructor(private auth: AuthService, private ws: WebSocketService) {}
+  // constructor(private auth: AuthService, private ws: WebSocketService) {}
 
-  onLogout(): void {
-    this.auth.logout();
+  setPage(value: number): void {
+    this.page = value;
   }
 
-  send(): void {
-    this.ws.send('/app/global', { content: this.text });
-    this.text = '';
-  }
+  // onLogout(): void {
+  //   this.auth.logout();
+  // }
 
-  ngOnInit(): void {
-    this.ws.connect('/topic/messages', (message) => {
-      this.messages.push(JSON.parse(message.body));
-    });
-  }
+  // send(): void {
+  //   this.ws.send('/app/global', { content: this.text });
+  //   this.text = '';
+  // }
 
-  ngOnDestroy(): void {
-    this.ws.disconnect();
-  }
+  // ngOnInit(): void {
+  //   this.ws.connect('/topic/messages', (message) => {
+  //     this.messages.push(JSON.parse(message.body));
+  //   });
+  // }
+
+  // ngOnDestroy(): void {
+  //   this.ws.disconnect();
+  // }
 }

@@ -5,6 +5,7 @@ import { CardComponent } from './card/card.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { AuthRegisterComponent } from './auth/auth-register/auth-register.component';
+import { ContactsComponent } from './contacts/contacts.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { AuthRegisterComponent } from './auth/auth-register/auth-register.compon
     AuthLoginComponent,
     HomeComponent,
     CardComponent,
-    AuthRegisterComponent
+    AuthRegisterComponent,
+    ContactsComponent
   ],
   imports: [
     CommonModule,

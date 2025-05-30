@@ -1,0 +1,16 @@
+.navegation {
+    width: 100vw;
+}
+
+.nav-text {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.nav-text:hover {
+    color: #ffc107;
+}
+
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}

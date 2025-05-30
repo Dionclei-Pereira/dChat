@@ -1,6 +1,27 @@
-<button (click)="onLogout()">Logout</button>
- 
-<input [(ngModel)]="text">
-<button (click)="send()">enviar</button>
+<div class="navigation">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary px-3">
+        <p class="navbar-brand fw-bold fs-3 mb-0 text-light">dCHAT</p>
 
-<p *ngFor="let m of messages">{{ m | json }}</p>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="nav">
+            <div class="d-flex ms-auto gap-4 d-flex justify-content-center">
+                <p [class]="{'text-light': page !== 0,'text-info': page === 0}" class="nav-item mb-0 fs-5 nav-text" (click)="setPage(0)">Chat</p>
+                <p [class]="{'text-light': page !== 1,'text-info': page === 1}" class="nav-item mb-0 fs-5 nav-text" (click)="setPage(1)">Contacts</p>
+                <p [class]="{'text-light': page !== 2,'text-info': page === 2}" class="nav-item mb-0 fs-5 nav-text" (click)="setPage(2)">Profile</p>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div *ngIf="page === 0">
+
+</div>
+<div *ngIf="page === 1">
+
+</div>
+<div *ngIf="page === 2">
+
+</div>
