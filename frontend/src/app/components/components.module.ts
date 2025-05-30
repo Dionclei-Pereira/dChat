@@ -4,13 +4,15 @@ import { AuthLoginComponent } from './auth/auth-login/auth-login.component';
 import { CardComponent } from './card/card.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
+import { AuthRegisterComponent } from './auth/auth-register/auth-register.component';
 
 
 @NgModule({
   declarations: [
     AuthLoginComponent,
     HomeComponent,
-    CardComponent
+    CardComponent,
+    AuthRegisterComponent
   ],
   imports: [
     CommonModule,

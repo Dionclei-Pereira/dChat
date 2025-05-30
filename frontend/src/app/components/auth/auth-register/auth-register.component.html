@@ -1,0 +1,31 @@
+<div class="auth d-flex justify-content-center mt-5">
+    <app-card class="w-75">
+        <form ngForm #form="ngForm" class="d-flex flex-column gap-2" (ngSubmit)="onSubmit(form)">
+            <div class="text-center">
+                <label for="name" class="h6 text-primary">Name</label>
+                <input #name="ngModel" ngModel type="text" id="name" name="name" class="w-100 rounded ps-1" required
+                    minlength="3">
+            </div>
+            <div class="text-center">
+                <label for="password" class="h6 text-primary">Password</label>
+                <input #pass="ngModel" ngModel type="password" id="password" name="password" class="w-100 rounded ps-1"
+                    required minlength="6" maxlength="16">
+            </div>
+            <div class="text-center">
+                <label for="confirm" class="h6 text-primary">Confirm Password</label>
+                <input #confirm="ngModel" ngModel type="password" id="confirm" name="confirm" class="w-100 rounded ps-1"
+                    required>
+            </div>
+            <p *ngIf="getErrorMessage()" class="text-info text-center">
+                {{ getErrorMessage() }}
+            </p>
+            <div>
+                <p class="text-center">already have an account? <span class="text-success"
+                        (click)="onLogin()">Login</span></p>
+            </div>
+            <div class="d-flex flex-column-reverse">
+                <button class="btn btn-outline-success mt-auto" [disabled]="!form.touched || getErrorMessage() !== ''">Register</button>
+            </div>
+        </form>
+    </app-card>
+</div>

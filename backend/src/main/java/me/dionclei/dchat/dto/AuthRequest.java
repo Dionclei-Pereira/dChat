@@ -5,11 +5,11 @@ import jakarta.validation.constraints.Size;
 
 public record AuthRequest(
 		
-		@NotBlank(message = "O nome é obrigatório")
+		@NotBlank(message = "Name is required")
 		String name,
 
-		@NotBlank(message = "A senha é obrigatória")
-		@Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
+		@NotBlank(message = "Password is required")
+		@Size(min = 6, max = 16, message = "password must be between 6 and 16")
 		String password
 		)
 	{
