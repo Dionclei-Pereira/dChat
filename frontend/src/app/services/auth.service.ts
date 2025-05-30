@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LoginRequest } from '../interfaces/auth-service/login-request.interface';
+import { ILoginRequest } from '../interfaces/auth-service/login-request.interface';
 import { Observable, of, tap } from 'rxjs';
-import { LoginResponse } from '../interfaces/auth-service/login-response.interface';
-import { RegisterRequest } from '../interfaces/auth-service/register-request.interface';
+import { ILoginResponse } from '../interfaces/auth-service/login-response.interface';
+import { IRegisterRequest } from '../interfaces/auth-service/register-request.interface';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -15,14 +15,14 @@ export class AuthService {
 
     constructor(private readonly http: HttpClient, private readonly router: Router) {}
 
-    login(credentials: LoginRequest): Observable<LoginResponse> {
-        return this.http.post<LoginResponse>(`${this.apiURL}/login`, credentials)
+    login(credentials: ILoginRequest): Observable<ILoginResponse> {
+        return this.http.post<ILoginResponse>(`${this.apiURL}/login`, credentials)
             .pipe(tap(response => {
                 localStorage.setItem('token', response.token);
             }));
     }
 
-    register(credentials: RegisterRequest): Observable<void> {
+    register(credentials: IRegisterRequest): Observable<void> {
         return this.http.post<void>(`${this.apiURL}/register`, credentials);
     }
 

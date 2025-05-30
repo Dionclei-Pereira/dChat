@@ -1,1 +1,6 @@
 <button (click)="onLogout()">Logout</button>
+ 
+<input [(ngModel)]="text">
+<button (click)="send()">enviar</button>
+
+<p *ngFor="let m of messages">{{ m | json }}</p>

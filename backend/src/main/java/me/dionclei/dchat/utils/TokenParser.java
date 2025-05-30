@@ -6,7 +6,7 @@ public class TokenParser {
 		if (token == null) return null;
 		token = token.trim();
 		if (token.startsWith("Bearer ")) {
-			token = token.substring(0, 7);
+			token = token.substring(7);
 		}
 		return token;
 	}
