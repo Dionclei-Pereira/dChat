@@ -18,7 +18,6 @@ public class ChatController {
 	private MessageService messageService;
 	
 	public ChatController(MessageService messageService) {
-		super();
 		this.messageService = messageService;
 	}
 	

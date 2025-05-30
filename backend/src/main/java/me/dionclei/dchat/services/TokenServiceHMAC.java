@@ -24,7 +24,7 @@ public class TokenServiceHMAC implements TokenService {
 		try {
 	        Algorithm algorithm = Algorithm.HMAC256(key);
 	        JWTVerifier verifier = JWT.require(algorithm)
-	                .withIssuer("URL-BACKEND")
+	                .withIssuer("dChat-Backend")
 	                .build();
 	        
 	        DecodedJWT jwt = verifier.verify(token);

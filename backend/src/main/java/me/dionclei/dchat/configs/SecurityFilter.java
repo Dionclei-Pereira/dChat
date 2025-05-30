@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import me.dionclei.dchat.exceptions.TokenException;
 import me.dionclei.dchat.repositories.dUserRepository;
 import me.dionclei.dchat.services.interfaces.TokenService;
+import me.dionclei.dchat.utils.TokenParser;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -29,7 +30,14 @@ public class SecurityFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		String token = getToken(request.getHeader("Authorization"));
+		String token = TokenParser.getToken((request.getHeader("Authorization")));
+		
+	    String path = request.getRequestURI();
+
+	    if (path.startsWith("/auth")) {
+	        filterChain.doFilter(request, response);
+	        return;
+	    }
 		
 		try {
 			if (token != null) {
@@ -48,10 +56,5 @@ public class SecurityFilter extends OncePerRequestFilter {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
-	}
-	
-	private String getToken(String header) {
-		if (header == null) return null;
-		return header.trim().replace("Bearer ", "");
 	}
 }

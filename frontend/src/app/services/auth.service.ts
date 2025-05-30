@@ -40,7 +40,7 @@ export class AuthService {
         if (!token) return of(false);
         return this.http.get<boolean>(`${this.apiURL}/isvalid`, {
             headers: {
-                Authorization: `${token}`
+                Authorization: `Bearer ${token}`
             }
         }).pipe(tap(isValid => {
             if (!isValid) this.logout();

@@ -27,6 +27,7 @@ public class SecurityConfig {
 		return config.csrf(c -> c.disable())
 				.cors(c -> c.configurationSource(cors))
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/ws").authenticated()
+						.requestMatchers("/auth/**").permitAll()
 						.anyRequest().permitAll())
 				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(e -> e.authenticationEntryPoint((request, response, ex) -> {

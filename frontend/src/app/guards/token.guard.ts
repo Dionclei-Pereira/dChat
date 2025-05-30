@@ -10,20 +10,12 @@ export class TokenGuard implements CanActivate {
 
     constructor(private auth: AuthService, private router: Router) { }
 
-    canActivate(): Observable<boolean> {
-        return this.auth.isValid().pipe(
-            map(isValid => {
-                if (!isValid) {
-                    return true;
-                } else {
-                    this.router.navigate(['/home']);
-                    return false;
-                }
-            }),
-            catchError(() => {
-                this.router.navigate(['/auth']);
-                return of(true);
-            })
-        );
+    canActivate(): boolean {
+        const token = this.auth.getToken();
+        if (token) {
+            this.router.navigate(['/home'])
+            return false;
+        }
+        return true;
     }
 }

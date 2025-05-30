@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import me.dionclei.dchat.exceptions.TokenException;
 import me.dionclei.dchat.repositories.dUserRepository;
 import me.dionclei.dchat.services.interfaces.TokenService;
+import me.dionclei.dchat.utils.TokenParser;
 
 @Component
 public class WebSocketFilter implements ChannelInterceptor {
@@ -31,8 +32,9 @@ public class WebSocketFilter implements ChannelInterceptor {
 		
 		if (accessor != null && StompCommand.CONNECT.equals(accessor.getCommand())) {
 			String token = accessor.getFirstNativeHeader("Authorization");
-			if (token != null && token.startsWith("Bearer ")) {
-				token = token.replace("Bearer ", "");
+			if (token != null) {
+				
+				token = TokenParser.getToken(token);
 				
 				try {
 					String subject = service.validateToken(token);

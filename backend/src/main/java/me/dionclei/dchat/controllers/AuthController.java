@@ -21,6 +21,7 @@ import me.dionclei.dchat.dto.LoginResponse;
 import me.dionclei.dchat.enums.UserRole;
 import me.dionclei.dchat.services.interfaces.TokenService;
 import me.dionclei.dchat.services.interfaces.UserService;
+import me.dionclei.dchat.utils.TokenParser;
 
 @RestController
 @RequestMapping("/auth")
@@ -67,6 +68,7 @@ public class AuthController {
 	@GetMapping("isvalid")
 	public ResponseEntity<Boolean> isValid(HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
+		token = TokenParser.getToken(token);
 		return ResponseEntity.ok().body(tokenService.isValid(token));
 	}
 }
