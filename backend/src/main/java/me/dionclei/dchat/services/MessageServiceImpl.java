@@ -1,6 +1,7 @@
 package me.dionclei.dchat.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,14 @@ public class MessageServiceImpl implements MessageService {
 	private MessageRepository repository;
 	 
 	public Message save(Message message) {
+		
+	    long totalMessages = repository.count();
+	    
+	    if (totalMessages >= 40) {
+	        Optional<Message> oldest = repository.findFirstByOrderByMomentAsc();
+	        oldest.ifPresent(repository::delete);
+	    }
+	    
 		return repository.save(message);
 	}
 	
