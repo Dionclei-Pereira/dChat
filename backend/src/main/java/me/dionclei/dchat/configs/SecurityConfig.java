@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +29,7 @@ public class SecurityConfig {
 				.cors(c -> c.configurationSource(cors))
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/ws").authenticated()
 						.requestMatchers("/auth/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/history/global").permitAll()
 						.anyRequest().permitAll())
 				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(e -> e.authenticationEntryPoint((request, response, ex) -> {

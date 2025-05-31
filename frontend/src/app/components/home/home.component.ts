@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { WebSocketService } from '../../services/websocket.service';
 import { IMessage } from '../../interfaces/message.interface';
 import { take } from 'rxjs';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   messages: IMessage[] = [];
   text: string = '';
   page: number = 0;
-  chat: string = 'Global';
+  chat: string = '';
   name: string = '';
+  load: boolean = false;
 
-  constructor(private auth: AuthService, private ws: WebSocketService) {}
+  constructor(private auth: AuthService, private ws: WebSocketService, private history: HistoryService) {
+    this.changeChat('Global');
+  }
 
   setPage(value: number): void {
     this.page = value;
@@ -28,6 +32,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.page = 0;
     this.chat = value;
     this.messages = [];
+    this.load = false;
+    
+    if (value === 'Global') {
+      this.history.getGlobalHistory().pipe(take(1))
+        .subscribe({
+          next: (response) => response.forEach(message => this.messages.push(message)),
+          error: () => {},
+          complete: () => { this.load = true; }
+        });
+    }
   }
 
   onLogout(): void {
@@ -48,7 +62,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.auth.getName().pipe(take(1))
       .subscribe(response => {
         this.name = response.name;
-        console.log(response.name)
       })
     this.ws.connect('/topic/messages', (message) => {
       this.messages.push(JSON.parse(message.body));

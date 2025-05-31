@@ -21,7 +21,7 @@
     </nav>
 </div>
 
-<div *ngIf="page === 0">
+<div *ngIf="page === 0 && load">
     <app-chat [messages]="messages" [user]="name" (messageEmitter)="onSend($event)" [chat]="chat"></app-chat>
 </div>
 <div *ngIf="page === 1">

@@ -26,6 +26,9 @@ export class ChatComponent implements AfterViewInit {
   onSend(): void {
     this.messageEmitter.emit(this.text);
     this.text = '';
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 100);
   }
 
   ngAfterViewInit(): void {
