@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.chat = value;
     this.messages = [];
     this.load = false;
-    
+
     if (value === 'Global') {
       this.history.getGlobalHistory().pipe(take(1))
         .subscribe({
@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
+    this.ws.disconnect();
     this.auth.logout();
   }
 
