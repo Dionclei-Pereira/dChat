@@ -1,4 +1,4 @@
-.contacts {
+.chat {
 
     width: 100vw;
     height: 90vh;
@@ -11,13 +11,7 @@
     box-shadow: 0 0 40px rgb(247, 82, 178);
 }
 
-.card:hover {
-    transform: scale(1.02);
-    transition: transform 0.2s ease;
-}
-
-.card img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
+.chating {
+    height: 50vh;
+    overflow-y: scroll;
 }

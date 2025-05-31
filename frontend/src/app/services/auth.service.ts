@@ -5,6 +5,7 @@ import { Observable, of, tap } from 'rxjs';
 import { ILoginResponse } from '../interfaces/auth-service/login-response.interface';
 import { IRegisterRequest } from '../interfaces/auth-service/register-request.interface';
 import { Router } from '@angular/router';
+import { INameResponse } from '../interfaces/auth-service/name-response.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,10 @@ export class AuthService {
 
     register(credentials: IRegisterRequest): Observable<void> {
         return this.http.post<void>(`${this.apiURL}/register`, credentials);
+    }
+
+    getName(): Observable<INameResponse> {
+        return this.http.get<INameResponse>(`${this.apiURL}/username`);
     }
 
     getToken(): string | null {

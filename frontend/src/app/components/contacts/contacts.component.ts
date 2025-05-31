@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-contacts',
@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class ContactsComponent {
 
+  @Output()
+  onChat = new EventEmitter<string>();
+
+  changeChat(value: string): void {
+    this.onChat.emit(value);
+  }
 }

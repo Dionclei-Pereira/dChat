@@ -7,7 +7,7 @@ import { TokenGuard } from './guards/token.guard';
 import { AuthRegisterComponent } from './components/auth/auth-register/auth-register.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'auth', canActivate: [TokenGuard], children: [
     { path: 'login', component: AuthLoginComponent },
     { path: 'register', component: AuthRegisterComponent },

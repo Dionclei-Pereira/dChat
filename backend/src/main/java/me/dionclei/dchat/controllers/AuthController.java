@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import me.dionclei.dchat.dto.AuthRequest;
 import me.dionclei.dchat.dto.LoginResponse;
+import me.dionclei.dchat.dto.NameResponse;
 import me.dionclei.dchat.enums.UserRole;
 import me.dionclei.dchat.services.interfaces.TokenService;
 import me.dionclei.dchat.services.interfaces.UserService;
@@ -65,10 +66,18 @@ public class AuthController {
 		return ResponseEntity.notFound().build();
 	}
 	
-	@GetMapping("isvalid")
+	@GetMapping("/isvalid")
 	public ResponseEntity<Boolean> isValid(HttpServletRequest request) {
 		String token = request.getHeader("Authorization");
 		token = TokenParser.getToken(token);
 		return ResponseEntity.ok().body(tokenService.isValid(token));
+	}
+	
+	@GetMapping("/username")
+	public ResponseEntity<NameResponse> username(HttpServletRequest request) {
+		String token = request.getHeader("Authorization");
+		token = TokenParser.getToken(token);
+		var response = new NameResponse(tokenService.validateToken(token));
+		return ResponseEntity.ok().body(response);
 	}
 }

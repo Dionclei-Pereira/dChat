@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { AuthRegisterComponent } from './auth/auth-register/auth-register.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ContactsComponent } from './contacts/contacts.component';
     HomeComponent,
     CardComponent,
     AuthRegisterComponent,
-    ContactsComponent
+    ContactsComponent,
+    ChatComponent
   ],
   imports: [
     CommonModule,

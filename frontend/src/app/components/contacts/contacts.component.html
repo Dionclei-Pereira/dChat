@@ -1,1 +1,18 @@
-<p>contacts works!</p>
+<div class="contacts overflow-y-scroll p-2">
+    <h2 class="text-white mb-4 pt-1 text-center">Contacts</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="me-3">
+                        <img src="planet.png" class="rounded-circle" alt="Profile">
+                    </div>
+                    <div>
+                        <h5 class="card-title mb-1">Global</h5>
+                        <button class="btn btn-sm btn-primary" (click)="changeChat('Global')">Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

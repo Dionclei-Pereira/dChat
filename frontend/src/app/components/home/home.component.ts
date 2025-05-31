@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { WebSocketService } from '../../services/websocket.service';
 import { IMessage } from '../../interfaces/message.interface';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,36 +10,52 @@ import { IMessage } from '../../interfaces/message.interface';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent 
-  // implements OnInit, OnDestroy 
-{
+export class HomeComponent implements OnInit, OnDestroy {
 
   messages: IMessage[] = [];
   text: string = '';
   page: number = 0;
+  chat: string = 'Global';
+  name: string = '';
 
-  // constructor(private auth: AuthService, private ws: WebSocketService) {}
+  constructor(private auth: AuthService, private ws: WebSocketService) {}
 
   setPage(value: number): void {
     this.page = value;
   }
 
-  // onLogout(): void {
-  //   this.auth.logout();
-  // }
+  changeChat(value: string): void {
+    this.page = 0;
+    this.chat = value;
+    this.messages = [];
+  }
 
-  // send(): void {
-  //   this.ws.send('/app/global', { content: this.text });
-  //   this.text = '';
-  // }
+  onLogout(): void {
+    this.auth.logout();
+  }
 
-  // ngOnInit(): void {
-  //   this.ws.connect('/topic/messages', (message) => {
-  //     this.messages.push(JSON.parse(message.body));
-  //   });
-  // }
+  onSend(text: string) {
+    this.text = text;
+    this.send();
+  }
 
-  // ngOnDestroy(): void {
-  //   this.ws.disconnect();
-  // }
+  send(): void {
+    this.ws.send('/app/global', { content: this.text });
+    this.text = '';
+  }
+
+  ngOnInit(): void {
+    this.auth.getName().pipe(take(1))
+      .subscribe(response => {
+        this.name = response.name;
+        console.log(response.name)
+      })
+    this.ws.connect('/topic/messages', (message) => {
+      this.messages.push(JSON.parse(message.body));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.ws.disconnect();
+  }
 }
