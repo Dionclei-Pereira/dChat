@@ -30,6 +30,8 @@ public class SecurityConfig {
 				.authorizeHttpRequests(auth -> auth.requestMatchers("/ws").authenticated()
 						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/history/global").permitAll()
+						.requestMatchers("/contact").authenticated()
+						.requestMatchers("/contact/**").authenticated()
 						.anyRequest().permitAll())
 				.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling(e -> e.authenticationEntryPoint((request, response, ex) -> {
