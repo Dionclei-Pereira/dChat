@@ -81,6 +81,11 @@ public class ContactController {
         return ResponseEntity.ok().body(contactService.findAll(principal.getName()));
     }
 
+    @GetMapping("/requests")
+    public ResponseEntity<List<Contact>> requests(Principal principal) {
+        return ResponseEntity.ok().body(contactService.findAllRequests(principal.getName()));
+    }
+
     private String generateId(String from, String to) {
         String[] names = { from, to };
         Arrays.sort(names);

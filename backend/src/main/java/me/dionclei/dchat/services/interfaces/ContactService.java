@@ -13,4 +13,6 @@ public interface ContactService {
 
     List<Contact> findAll(String name);
 
+    List<Contact> findAllRequests(String name);
+
 }

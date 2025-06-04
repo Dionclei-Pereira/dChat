@@ -1,5 +1,6 @@
 package me.dionclei.dchat.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +27,18 @@ public class ContactServiceImpl implements ContactService {
 
     public List<Contact> findAll(String name) {
         return repository.findByIdContainingAndAcceptedIsTrue(name);
+    }
+
+    public List<Contact> findAllRequests(String name) {
+        var requests = repository.findByIdContainingAndAcceptedIsFalse(name);
+
+        List<Contact> received = new ArrayList<>();
+        requests.forEach(c -> {
+            if (!c.getFrom().contains(name)) {
+                received.add(c);
+            }
+        });
+
+        return received;
     }
 }
