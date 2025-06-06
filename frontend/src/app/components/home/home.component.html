@@ -25,7 +25,7 @@
     <app-chat [messages]="messages" [user]="name" (messageEmitter)="onSend($event)" [chat]="chat"></app-chat>
 </div>
 <div *ngIf="page === 1">
-    <app-contacts (onChat)="changeChat($event)"></app-contacts>
+    <app-contacts (onChat)="changeChat($event)" [name]="name"></app-contacts>
 </div>
 <div *ngIf="page === 2">
 

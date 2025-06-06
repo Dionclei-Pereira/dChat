@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rabbitmq.client.RpcClient.Response;
-
 import me.dionclei.dchat.documents.Contact;
 import me.dionclei.dchat.dto.ContactRequest;
-import me.dionclei.dchat.repositories.ContactRepository;
 import me.dionclei.dchat.services.interfaces.ContactService;
 import me.dionclei.dchat.services.interfaces.UserService;
 
@@ -35,6 +32,8 @@ public class ContactController {
     
     @PostMapping("/send")
     public ResponseEntity<Void> sendRequest(@RequestBody ContactRequest request, Principal principal) {
+        if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
+
         String id = generateId(principal.getName(), request.name());
 
         var user = userService.findByName(request.name());
@@ -57,6 +56,8 @@ public class ContactController {
 
     @PostMapping("/accept")
     public ResponseEntity<Void> acceptRequest(@RequestBody ContactRequest request, Principal principal) {
+        if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
+        
         String id = generateId(principal.getName(), request.name());
         var optionalContact = contactService.findById(id);
 
@@ -64,7 +65,7 @@ public class ContactController {
 
             var contact = optionalContact.get();
 
-            if (contact.getFrom() != principal.getName()) {
+            if (contact.getFrom() != principal.getName() && !contact.getAccepted()) {
                 contact.setAccepted(true);
 
                 contactService.save(contact);
