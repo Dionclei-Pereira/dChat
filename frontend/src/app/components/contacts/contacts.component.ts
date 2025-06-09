@@ -13,6 +13,7 @@ import { take } from 'rxjs';
 export class ContactsComponent implements OnInit {
 
   contacts: IContact[] = [];
+  addContactStatus: boolean | undefined;
   
   @Input({ required: true })
   name: string = '';
@@ -32,6 +33,14 @@ export class ContactsComponent implements OnInit {
           });
         }
       })
+  }
+
+  onSendContactRequest(name: string) {
+    this.contactService.sendRequest(name).pipe(take(1))
+      .subscribe({
+        complete: () => this.addContactStatus = true,
+        error: () => this.addContactStatus = false
+      });
   }
 
   changeChat(value: string): void {

@@ -11,9 +11,12 @@
     box-shadow: 0 0 40px rgb(247, 82, 178);
 }
 
+.card {
+    transition: transform 0.4s ease;
+}
+
 .card:hover {
     transform: scale(1.02);
-    transition: transform 0.2s ease;
 }
 
 .card img {
