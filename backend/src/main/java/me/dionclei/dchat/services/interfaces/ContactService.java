@@ -15,4 +15,5 @@ public interface ContactService {
 
     List<Contact> findAllRequests(String name);
 
+    void delete(String id);
 }

@@ -54,6 +54,22 @@ public class ContactController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PostMapping("/delete")
+    public ResponseEntity<Void> deleteRequest(@RequestBody ContactRequest request, Principal principal) {
+        if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
+        
+        String id = generateId(principal.getName(), request.name());
+        var optionalContact = contactService.findById(id);
+
+        if(optionalContact.isPresent()) {
+
+            var contact = optionalContact.get();
+            contactService.delete(contact.getId());
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
     @PostMapping("/accept")
     public ResponseEntity<Void> acceptRequest(@RequestBody ContactRequest request, Principal principal) {
         if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
@@ -76,7 +92,7 @@ public class ContactController {
 
         return ResponseEntity.badRequest().build();
     }
-
+    
     @GetMapping()
     public ResponseEntity<List<Contact>> findAll(Principal principal) {
         return ResponseEntity.ok().body(contactService.findAll(principal.getName()));
