@@ -33,4 +33,10 @@ export class ContactService {
 
         return this.http.post<void>(`${this.apiURL}/accept`, request);
     }
+
+    refuseRequest(username: string): Observable<void> {
+        let request: IContactRequest = { name: username }
+        
+        return this.http.post<void>(`${this.apiURL}/delete`, request)
+    }
 }

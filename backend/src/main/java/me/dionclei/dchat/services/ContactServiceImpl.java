@@ -21,6 +21,10 @@ public class ContactServiceImpl implements ContactService {
         return repository.findById(id);
     }
 
+    public void delete(String id) {
+        repository.deleteById(id);
+    }
+
     public Contact save(Contact contact) {
         return repository.save(contact);
     }
