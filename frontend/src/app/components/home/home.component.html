@@ -28,5 +28,5 @@
     <app-contacts (onChat)="changeChat($event)" [name]="name"></app-contacts>
 </div>
 <div *ngIf="page === 2">
-
+    <app-profile [profile]="name ? name : '???'"></app-profile>
 </div>

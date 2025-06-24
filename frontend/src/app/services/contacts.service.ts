@@ -18,7 +18,7 @@ export class ContactService {
         return this.http.get<IContact[]>(this.apiURL);
     }
 
-    getRequest(): Observable<IRequestContact[]> {
+    getRequests(): Observable<IRequestContact[]> {
         return this.http.get<IRequestContact[]>(`${this.apiURL}/requests`);
     }
 

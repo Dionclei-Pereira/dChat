@@ -30,7 +30,15 @@ public class ContactServiceImpl implements ContactService {
     }
 
     public List<Contact> findAll(String name) {
-        return repository.findByIdContainingAndAcceptedIsTrue(name);
+        var contacts = repository.findByIdContainingAndAcceptedIsTrue(name);
+        contacts.removeIf(c -> { 
+        		var names = c.getId().split("-");
+        		if (!names[0].equals(name) && !names[1].equals(name)) {
+        			return true;
+        		}
+        		return false;
+        	});
+        return contacts;
     }
 
     public List<Contact> findAllRequests(String name) {
@@ -38,11 +46,11 @@ public class ContactServiceImpl implements ContactService {
 
         List<Contact> received = new ArrayList<>();
         requests.forEach(c -> {
-            if (!c.getFrom().contains(name)) {
+        	var names = c.getId().split("-");
+            if (!c.getFrom().contains(name) && (names[0].equals(name) || names[1].equals(name))) {
                 received.add(c);
             }
         });
-
         return received;
     }
 }

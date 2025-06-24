@@ -1,0 +1,20 @@
+<div class="d-flex w-100 align-items-center flex-column">
+    <h1 class="mt-1 text-info">{{ profile }}</h1>
+    
+    <h2>Contact Requests</h2>
+    <div class="d-flex flex-column gap-2 requests" *ngIf="requests">
+        <div *ngFor="let request of requests" class="card shadow-lg d-flex flex-row justify-content-between">
+            <p class="ps-2 pt-1 align-self-center h6">{{ request }}</p>
+            <div>
+                <button class="btn text-success" (click)="acceptRequest(request)"><i class="bi bi-check2"></i></button>
+                <button class="btn text-danger" (click)="refuseRequest(request)"><i class="bi bi-x"></i></button>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngIf="requests === null">
+        <div class="spinner-border text-info"></div>
+    </ng-container>
+    <ng-container *ngIf="requests?.length === 0">
+        <h4>You don't have any contact request</h4>
+    </ng-container>
+</div>

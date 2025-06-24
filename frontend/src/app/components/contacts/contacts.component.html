@@ -22,17 +22,21 @@
                         <img src="user.png" class="rounded-circle" alt="Profile">
                     </div>
                     <div class="d-flex justify-content-between w-100">
-                        <h5 class="card-title mb-1 w-25">{{ contact.id }}</h5>
+                        <h5 class="card-title mb-1 w-75">{{ contact.id }}</h5>
                         <button class="btn btn-sm btn-primary" (click)="changeChat(contact.id)"><i
                                 class="bi bi-chat-left-dots-fill"></i></button>
                     </div>
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-outline-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addFriendModal">
-           <i class="bi bi-person-plus-fill w-100"></i>
-            <span class="ms-1 h6">Add a new contact</span>
-        </button>
+        <div class="col">
+            <button type="button" (click)="addContactStatus = undefined"
+                class="btn btn-outline-primary btn-lg w-100 h-100 d-flex flex-column justify-content-center align-items-center"
+                data-bs-toggle="modal" data-bs-target="#addFriendModal">
+                <i class="bi bi-person-plus-fill fs-2"></i>
+                <span class="ms-1 h6">Add a new contact</span>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -41,15 +45,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitleId">Adding a new contact</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body mb-2">
                 <div class="d-flex mb-3">
-                    <input #input ngModel type="text" style="height: 50px; padding-left: 15px;" class="rounded-pill rounded-end w-75" (keydown.enter)="onSendContactRequest(input.value)">
-                    <button class="btn btn-primary rounded-start rounded-pill" (click)="onSendContactRequest(input.value)">Send</button>
+                    <input #input ngModel type="text" style="height: 50px; padding-left: 15px;"
+                        class="rounded-pill rounded-end w-75" (keydown.enter)="onSendContactRequest(input.value)">
+                    <button class="btn btn-primary rounded-start rounded-pill"
+                        (click)="onSendContactRequest(input.value)">Send</button>
                 </div>
                 <p *ngIf="addContactStatus === false" class="h6 text-info text-center">* Invalid name</p>
-                <p *ngIf="addContactStatus === true" class="h6 text-success text-center">Request was sent successfully</p>
+                <p *ngIf="addContactStatus === true" class="h6 text-success text-center">Request was sent successfully
+                </p>
             </div>
         </div>
     </div>
