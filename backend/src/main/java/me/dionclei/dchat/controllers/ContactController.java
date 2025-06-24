@@ -1,7 +1,6 @@
 package me.dionclei.dchat.controllers;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import me.dionclei.dchat.documents.Contact;
 import me.dionclei.dchat.dto.ContactRequest;
 import me.dionclei.dchat.services.interfaces.ContactService;
 import me.dionclei.dchat.services.interfaces.UserService;
+import me.dionclei.dchat.utils.ContactIdGenerator;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public class ContactController {
     public ResponseEntity<Void> sendRequest(@RequestBody ContactRequest request, Principal principal) {
         if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
 
-        String id = generateId(principal.getName(), request.name());
+        String id = ContactIdGenerator.generateId(principal.getName(), request.name());
 
         var user = userService.findByName(request.name());
         var contact = contactService.findById(id);
@@ -58,7 +58,7 @@ public class ContactController {
     public ResponseEntity<Void> deleteRequest(@RequestBody ContactRequest request, Principal principal) {
         if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
         
-        String id = generateId(principal.getName(), request.name());
+        String id = ContactIdGenerator.generateId(principal.getName(), request.name());
         var optionalContact = contactService.findById(id);
 
         if(optionalContact.isPresent()) {
@@ -74,7 +74,7 @@ public class ContactController {
     public ResponseEntity<Void> acceptRequest(@RequestBody ContactRequest request, Principal principal) {
         if (request.name().contains(principal.getName())) return ResponseEntity.badRequest().build();
         
-        String id = generateId(principal.getName(), request.name());
+        String id = ContactIdGenerator.generateId(principal.getName(), request.name());
         var optionalContact = contactService.findById(id);
 
         if(optionalContact.isPresent()) {
@@ -102,11 +102,5 @@ public class ContactController {
     public ResponseEntity<List<Contact>> requests(Principal principal) {
         return ResponseEntity.ok().body(contactService.findAllRequests(principal.getName()));
     }
-
-    private String generateId(String from, String to) {
-        String[] names = { from, to };
-        Arrays.sort(names);
-        String id = names[0] + "-" + names[1];
-        return id;
-    }
+    
 }
