@@ -65,6 +65,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.ws.send('/app/global', { content: this.text });
     } else {
       this.ws.send('/app/private', { content: this.text , to: this.chat});
+      this.messages.push({content: this.text, from: this.name, moment: new Date(Date.now())})
     }
     this.text = '';
   }

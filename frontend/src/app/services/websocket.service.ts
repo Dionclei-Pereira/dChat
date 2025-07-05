@@ -34,7 +34,7 @@ export class WebSocketService {
       this.subs.unsubscribe();
     }
     if (this.client) {
-      this.client.deactivate();
+    this.client.deactivate();
     }
   }
 
