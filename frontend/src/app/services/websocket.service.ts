@@ -33,7 +33,9 @@ export class WebSocketService {
     if (this.subs) {
       this.subs.unsubscribe();
     }
-    this.client!.deactivate();
+    if (this.client) {
+      this.client.deactivate();
+    }
   }
 
   send(destination: string, body: any) {

@@ -30,10 +30,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   changeChat(value: string): void {
     this.page = 0;
-    this.chat = value;
     this.messages = [];
     this.load = false;
-
+    if (this.ws) {
+      this.ws.disconnect();
+    }
     if (value === 'Global') {
       this.history.getGlobalHistory().pipe(take(1))
         .subscribe({
@@ -41,7 +42,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           error: () => {},
           complete: () => { this.load = true; }
         });
+        this.connectToGlobal();
+    } else {
+      this.load = true;
+      this.connectToPrivate()
     }
+    this.chat = value;
   }
 
   onLogout(): void {
@@ -55,8 +61,24 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   send(): void {
-    this.ws.send('/app/global', { content: this.text });
+    if (this.chat == 'Global') {
+      this.ws.send('/app/global', { content: this.text });
+    } else {
+      this.ws.send('/app/private', { content: this.text , to: this.chat});
+    }
     this.text = '';
+  }
+
+  connectToPrivate(): void {
+    this.ws.connect('/user/queue/messages', (message) => {
+      this.messages.push(JSON.parse(message.body));
+    })
+  }
+
+  connectToGlobal(): void {
+    this.ws.connect('/topic/messages', (message) => {
+      this.messages.push(JSON.parse(message.body))
+    })
   }
 
   ngOnInit(): void {
@@ -64,9 +86,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.name = response.name;
       })
-    this.ws.connect('/topic/messages', (message) => {
-      this.messages.push(JSON.parse(message.body));
-    });
+    this.connectToGlobal();
   }
 
   ngOnDestroy(): void {
