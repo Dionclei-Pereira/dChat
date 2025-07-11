@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import me.dionclei.dchat.documents.Message;
 import me.dionclei.dchat.dto.MessageDTO;
 import me.dionclei.dchat.dto.PrivateMessageDTO;
+import me.dionclei.dchat.services.interfaces.ChatService;
 import me.dionclei.dchat.services.interfaces.ContactService;
 import me.dionclei.dchat.services.interfaces.MessageService;
 import me.dionclei.dchat.utils.ContactIdGenerator;
@@ -22,12 +23,14 @@ public class ChatController {
 	private MessageService messageService;
 	private SimpMessagingTemplate template;
 	private ContactService contactService;
+	private ChatService chatService;
 	
 	public ChatController(MessageService messageService, SimpMessagingTemplate template,
-			ContactService contactService) {
+			ContactService contactService, ChatService chatService) {
 		this.messageService = messageService;
 		this.template = template;
 		this.contactService = contactService;
+		this.chatService = chatService;
 	}
 
 	@MessageMapping("/global")
@@ -58,6 +61,7 @@ public class ChatController {
 		var contact = contactService.findById(id);
 		
 		if (contact.isPresent() && contact.get().getAccepted() == true) {
+			chatService.save(message, id);
 			template.convertAndSendToUser(receiver, "/queue/messages", message);
 		}
 	}

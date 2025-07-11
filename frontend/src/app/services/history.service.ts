@@ -15,4 +15,8 @@ export class HistoryService {
     getGlobalHistory(): Observable<IMessage[]> {
         return this.http.get<IMessage[]>(`${this.apiURL}/global`);
     }
+
+    getPrivateMessages(to: string): Observable<IMessage[]> {
+        return this.http.get<IMessage[]>(`${this.apiURL}/private/${to}`);
+    }
 }

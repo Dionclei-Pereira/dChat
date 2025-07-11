@@ -44,7 +44,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
         this.connectToGlobal();
     } else {
-      this.load = true;
+      this.history.getPrivateMessages(value).pipe(take(1))
+        .subscribe({
+          next: (response) => response.forEach(message => this.messages.push(message)),
+          error: () => {},
+          complete: () => { this.load = true }
+        })
       this.connectToPrivate()
     }
     this.chat = value;
